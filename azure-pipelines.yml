@@ -13,7 +13,7 @@ steps:
 - task: GitHubComment@0
   inputs:
     gitHubConnection: 'gitserviceendpoint'
-    repositoryName: 'Pocaccount1/ADOK8'
+    repositoryName: 'Pocaccount1/spring-boot-war-example'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
