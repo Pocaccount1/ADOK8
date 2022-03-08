@@ -25,12 +25,6 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: true
     sqMavenPluginVersionChoice: 'latest'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'acr'
-    repository: 'docreg'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
 - task: CopyFiles@2
   displayName: 'Copy Files Build Artifactory'
   inputs:
