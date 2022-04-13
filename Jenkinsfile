@@ -14,7 +14,7 @@ def app_name = params.app_name*/
 /*def NODE_PASSWD = params.NODE_PASSWD
 */
 stage('Checkout') {
- git branch: 'main', credentialsId: 'Github_poc', url: 'https://github.com/Pocaccount1/ADOK8.git'   
+ git branch: 'master', credentialsId: 'Github_poc', url: 'https://github.com/Pocaccount1/ADOK8.git'   
  }
 
 
