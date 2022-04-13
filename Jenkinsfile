@@ -7,6 +7,7 @@ node {
 
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
+def Dockerhub_URL = params.Dockerhub_URL
 /*def ARTIFACTORY_IP = params.ARTIFACTORY_IP
 def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
 def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
@@ -41,19 +42,24 @@ stage('Build Image') {
     """
 }
 
-/*
+
 stage('Publish Image') {
-    withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
+    //withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
+    withCredentials([usernameColonPassword(credentialsId: 'docker_login', variable: 'dockerlogin')]) {
     sh """
-        docker login -u ${username} -p ${password} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}
-        docker tag ${IAMGE_NAME}:${TAG_NAME} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-        docker push ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-        docker pull ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
+        docker login -u ${username} -p ${password} ${Dockerhub_URL}
+        docker tag ${IAMGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
+        docker push ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
+        docker pull ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
+        #docker login -u ${username} -p ${password} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}
+        #docker tag ${IAMGE_NAME}:${TAG_NAME} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
+        #docker push ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
+        #docker pull ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
     """
 }
 
 }
-stage('Pre Deploy Task') {
+/*stage('Pre Deploy Task') {
     withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
     def docker_image = "${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}"
     dir('k8s-templates') {
