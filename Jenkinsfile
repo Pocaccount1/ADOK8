@@ -7,14 +7,14 @@ node {
 
 def IAMGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
-def ARTIFACTORY_IP = params.ARTIFACTORY_IP
+/*def ARTIFACTORY_IP = params.ARTIFACTORY_IP
 def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
 def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
-def app_name = params.app_name
+def app_name = params.app_name*/
 /*def NODE_PASSWD = params.NODE_PASSWD
 */
 stage('Checkout') {
- git branch: 'main', credentialsId: 'gitlab_cred', url: 'https://gitlab.com/rajudruva2/gs-spring-boot.git'   
+ git branch: 'main', credentialsId: 'Github_poc', url: 'https://github.com/Pocaccount1/ADOK8.git'   
  }
 
 
@@ -22,7 +22,7 @@ stage('Build') {
     withMaven(jdk: 'java', maven: 'maven') {
         
         println "build is running"
-        sh 'mvn -f complete/pom.xml clean package -Dmaven.test.skip=true'
+        sh 'mvn -f pom.xml clean package -Dmaven.test.skip=true'
     }
 }
 
@@ -30,18 +30,18 @@ stage('Test') {
     withMaven(jdk: 'java', maven: 'maven') {
         
         println "Unit Test is running"
-        sh 'mvn -f complete/pom.xml test'
+        sh 'mvn -f pom.xml test'
     }
 }
-/*
+
 stage('Build Image') {
     sh """
-        cd complete
+        
         docker build -t ${IAMGE_NAME}:${TAG_NAME} .
     """
 }
 
-
+/*
 stage('Publish Image') {
     withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
@@ -88,7 +88,7 @@ stage('Deploy to k8s'){
 }
 }*/
 
-stage("Deploy to node4") {
+/*stage("Deploy to node4") {
         
         def remote = [:]
         remote.name = 'node4'
@@ -100,7 +100,7 @@ stage("Deploy to node4") {
         sshPut remote: remote, from: 'complete/target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
         sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"
         
-     }
+     }*/
 
 
 /*stage("Deploy to node4") 
