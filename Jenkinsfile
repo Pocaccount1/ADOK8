@@ -7,6 +7,7 @@ node {
 
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
+ def docker_login = params.docker_login
 def Dockerhub_URL = params.Dockerhub_URL
 /*def ARTIFACTORY_IP = params.ARTIFACTORY_IP
 def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
@@ -44,10 +45,10 @@ stage('Build Image') {
 
 
 stage('Publish Image') {
-    //withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
+    /*withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {*/
     withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
-        docker login -u peram -p peram123 ${Dockerhub_URL}
+        docker login ${docker_login} ${Dockerhub_URL}
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
