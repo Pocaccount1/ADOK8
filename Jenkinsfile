@@ -37,7 +37,7 @@ stage('Test') {
 stage('Build Image') {
     sh """
         
-        docker build -t ${IAMGE_NAME}:${TAG_NAME} .
+        docker build -t ${IMAGE_NAME}:${TAG_NAME} .
     """
 }
 
