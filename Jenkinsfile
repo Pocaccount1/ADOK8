@@ -45,17 +45,17 @@ stage('Build Image') {
 
 stage('Publish Image') {
     //withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
-    withCredentials([usernameColonPassword(credentialsId: 'docker_login', variable: 'dockerlogin')]) {
+    withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
         docker login -u ${username} -p ${password} ${Dockerhub_URL}
         docker tag ${IAMGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IAMGE_NAME}:${TAG_NAME}
-        #docker login -u ${username} -p ${password} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}
+    """
+    /* #docker login -u ${username} -p ${password} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}
         #docker tag ${IAMGE_NAME}:${TAG_NAME} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
         #docker push ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-        #docker pull ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-    """
+        #docker pull ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}*/
 }
 
 }
