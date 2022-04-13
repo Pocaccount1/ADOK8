@@ -5,7 +5,7 @@ remote.allowAnyHosts = true */
 
 node {
 
-def IAMGE_NAME = params.IMAGE_NAME
+def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
 /*def ARTIFACTORY_IP = params.ARTIFACTORY_IP
 def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
