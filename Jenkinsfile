@@ -7,12 +7,12 @@ node {
 
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
- def docker_login = params.docker_login
-def Dockerhub_URL = params.Dockerhub_URL
-/*def ARTIFACTORY_IP = params.ARTIFACTORY_IP
-def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
+ //def docker_login = params.docker_login
+//def Dockerhub_URL = params.Dockerhub_URL
+//def ARTIFACTORY_IP = params.ARTIFACTORY_IP
+//def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
 def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
-def app_name = params.app_name*/
+//def app_name = params.app_name
 /*def NODE_PASSWD = params.NODE_PASSWD
 */
 stage('Checkout') {
@@ -45,18 +45,19 @@ stage('Build Image') {
 
 
 stage('Publish Image') {
-    /*withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {*/
+    withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
     withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
-        docker login ${docker_login} ${Dockerhub_URL}
+        docker login -u ${username} -p ${password} ${ARTIFACTORY_KEY}
+        docker tag ${IMAGE_NAME}:${TAG_NAME} ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
+        docker push ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
+        docker pull ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
+    """
+    
+    /* docker login ${docker_login} ${Dockerhub_URL}
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
-        docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
-    """
-    /* #docker login -u ${username} -p ${password} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}
-        #docker tag ${IAMGE_NAME}:${TAG_NAME} ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-        #docker push ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}
-        #docker pull ${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}*/
+        docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}*/
 }
 
 }
