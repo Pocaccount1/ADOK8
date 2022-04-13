@@ -59,7 +59,7 @@ stage('Publish Image') {
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}*/
 }
-
+    }
 }
 /*stage('Pre Deploy Task') {
     withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
