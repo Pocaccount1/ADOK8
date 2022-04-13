@@ -45,7 +45,7 @@ stage('Build Image') {
 
 
 stage('Publish Image') {
-    withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
+    withCredentials([usernamePassword(credentialsId: 'Artifactory_Creds', passwordVariable: 'password', usernameVariable: 'username')]) {
     withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
         docker login -u ${username} -p ${password} ${ARTIFACTORY_KEY}
