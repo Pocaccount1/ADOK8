@@ -47,7 +47,7 @@ stage('Publish Image') {
     //withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'password', usernameVariable: 'username')]) {
     withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
     sh """
-        docker login -u ${username} -p ${password} ${Dockerhub_URL}
+        docker login -u peram -p peram123 ${Dockerhub_URL}
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
