@@ -45,7 +45,7 @@ stage('Build Image') {
 
 
 stage('Publish Image') {
- withCredentials([usernameColonPassword(credentialsId: 'docker_login', variable: 'dockerhub_login')]) {
+ withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
    
     /*sh """
         docker login -u ${username} -p ${password} ${ARTIFACTORY_KEY}
