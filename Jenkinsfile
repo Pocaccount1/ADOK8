@@ -54,7 +54,7 @@ stage('Publish Image') {
         docker pull ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
     """*/
     sh """
-        docker login -u ${username} -p ${password} ${Dockerhub_URL}
+        docker login -u ${username} -p ${password} 
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
