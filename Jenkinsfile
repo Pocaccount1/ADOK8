@@ -45,21 +45,21 @@ stage('Build Image') {
 
 
 stage('Publish Image') {
-// withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
+ withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
  withCredentials([usernamePassword(credentialsId: 'Artifactory_Creds', passwordVariable: 'password', usernameVariable: 'username')]) {
    
-    sh """
+    /*sh """
         docker login -u ${username} -p ${password} ${ARTIFACTORY_KEY}
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
-    """
-   /* sh """
+    """ */
+    sh """
         docker login -u ${username} -p ${password} 
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
         docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
-        """*/
+        """
 
     }
 }
