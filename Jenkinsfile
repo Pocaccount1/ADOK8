@@ -8,10 +8,10 @@ node {
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
  def docker_login = params.docker_login
- //def Dockerhub_URL = params.Dockerhub_URL
+ def Dockerhub_URL = params.Dockerhub_URL
 //def ARTIFACTORY_IP = params.ARTIFACTORY_IP
 //def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
-def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
+//def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
 //def app_name = params.app_name
 /*def NODE_PASSWD = params.NODE_PASSWD
 */
