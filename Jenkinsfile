@@ -64,9 +64,24 @@ stage('Publish Image') {
 
     }
 }
-/*stage('Pre Deploy Task') {
-    withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-    def docker_image = "${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}"
+stage('Deploy Task') {
+steps{
+ sshagent(['ssh-private']) {
+    sh "scp -o StrictHostKeyChecking=no adok8.yaml CAadmin@20.121.23.190:/root"
+ script{
+  try{
+    sh "ssh CAadmin@20.121.23.190 kubectl apply -f ."
+  }catch(error){
+         sh "ssh CAadmin@20.121.23.190 kubectl create -f ."
+  }
+ }
+ }
+}
+}
+    /*withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+    withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
+
+    def docker_image = "${IMAGE_NAME}:${TAG_NAME_Latest}"
     dir('k8s-templates') {
       git branch: 'main', credentialsId: 'gitlab_cred', url: 'https://gitlab.com/rajudruva2/k8s-templates-yaml.git'
        sh """
