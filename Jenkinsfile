@@ -65,7 +65,6 @@ stage('Publish Image') {
     }
 }
 stage('Deploy Task') {
-steps{
  sshagent(['ssh-private']) {
     sh "scp -o StrictHostKeyChecking=no adok8.yaml CAadmin@20.121.23.190:/root"
  script{
@@ -75,7 +74,7 @@ steps{
          sh "ssh CAadmin@20.121.23.190 kubectl create -f ."
   }
  }
- }
+ 
 }
 }
     /*withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
