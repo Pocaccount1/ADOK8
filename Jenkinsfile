@@ -7,6 +7,7 @@ node {
 
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
+ def TAG_NAME_Latest = params.TAG_NAME_Latest
  def docker_login = params.docker_login
  def Dockerhub_URL = params.Dockerhub_URL
 //def ARTIFACTORY_IP = params.ARTIFACTORY_IP
@@ -56,9 +57,9 @@ stage('Publish Image') {
     """ */
     sh """
         docker login -u ${username} -p ${password} 
-        docker tag ${IMAGE_NAME}:${TAG_NAME} ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
-        docker push ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
-        docker pull ${Dockerhub_URL}/${IMAGE_NAME}:${TAG_NAME}
+        docker tag ${IMAGE_NAME}:${TAG_NAME} ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker push ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker pull ${IMAGE_NAME}:${TAG_NAME_Latest}
         """
 
     }
