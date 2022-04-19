@@ -57,9 +57,9 @@ stage('Publish Image') {
     """ */
     sh """
         docker login -u ${username} -p ${password} 
-        docker tag janardhan54/adok8:1 janardhan54/adok8:2
-        /*docker push ${IMAGE_NAME}:${TAG_NAME_Latest}
-        docker pull ${IMAGE_NAME}:${TAG_NAME_Latest}*/
+        docker tag ${IMAGE_NAME}:${TAG_NAME} ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker push ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker pull ${IMAGE_NAME}:${TAG_NAME_Latest}
         """
 
     }
