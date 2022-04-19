@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: adok8
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 9999
     targetPort: 9999
