@@ -123,7 +123,7 @@ stage("Deploy to node4") {
         remote.allowAnyHosts = true
         
         sshPut remote: remote, from: 'adok8.yaml', into: '.'        
-        sshCommand remote: remote, command: "kubectl apply -f adok8.yaml"
+        sshCommand remote: remote, command: "kubectl get ns"
 
       /*  sshPut remote: remote, from: 'target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
         sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"*/
