@@ -114,7 +114,7 @@ stage('Deploy to k8s'){
 }*/
 
 stage("Deploy to node4") {
-        
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-private', keyFileVariable: 'sshUser', passphraseVariable: 'K8S', usernameVariable: 'username')]) {
         def remote = [:]
         remote.name = 'k8smaster1'
         remote.host = '20.231.51.90'
@@ -127,7 +127,7 @@ stage("Deploy to node4") {
 
       /*  sshPut remote: remote, from: 'target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
         sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"*/
-        
+        }
      }
 
 
