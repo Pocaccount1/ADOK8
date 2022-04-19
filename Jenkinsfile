@@ -116,8 +116,8 @@ stage('Deploy to k8s'){
 stage("Deploy to node4") {
         
         def remote = [:]
-        remote.name = 'canode'
-        remote.host = '10.3.0.6'
+        remote.name = 'k8smaster1'
+        remote.host = '20.231.51.90'
         remote.user = 'CAadmin'
         remote.password = 'Passw0rd@123'
         remote.allowAnyHosts = true
