@@ -64,7 +64,7 @@ stage('Publish Image') {
 
     }
 }
-stage('Deploy Task') {
+/*stage('Deploy Task') {
  sshagent(['ssh-private']) {
     sh "scp -o StrictHostKeyChecking=no adok8.yaml CAadmin@20.121.23.190:/root"
  script{
@@ -76,7 +76,7 @@ stage('Deploy Task') {
  }
  
 }
-}
+} */
     /*withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
     withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
 
@@ -113,19 +113,22 @@ stage('Deploy to k8s'){
 }
 }*/
 
-/*stage("Deploy to node4") {
+stage("Deploy to node4") {
         
         def remote = [:]
-        remote.name = 'node4'
-        remote.host = '10.0.0.9'
-        remote.user = 'eqadmin'
-        remote.password = '6e^mGB3DPNvl'
+        remote.name = 'canode'
+        remote.host = '10.3.0.6'
+        remote.user = 'CAadmin'
+        remote.password = 'Passw0rd@123'
         remote.allowAnyHosts = true
-
-        sshPut remote: remote, from: 'complete/target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
-        sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"
         
-     }*/
+        sshPut remote: remote, from: 'adok8.yaml', into: '.'        
+        sshCommand remote: remote, command: "kubectl apply -f adok8.yaml"
+
+      /*  sshPut remote: remote, from: 'target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
+        sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"*/
+        
+     }
 
 
 /*stage("Deploy to node4") 
