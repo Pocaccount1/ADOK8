@@ -29,8 +29,8 @@ spec:
     spec:
       containers:
       - name: adok8-1
-        image: peram/k8s:ca1
-        imagePullPolicy: Always
+        image: janardhan54/adok8:1
+        imagePullPolicy: IfNotPresent
         env:
            - name: TZ
              value: Asia/Kolkata      
