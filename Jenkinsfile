@@ -57,9 +57,9 @@ stage('Publish Image') {
     """ */
     sh """
         docker login -u ${username} -p ${password} 
-        docker tag janardhan54/adok8:1 ${IMAGE_NAME}:${TAG_NAME_Latest}
-        docker push ${IMAGE_NAME}:${TAG_NAME_Latest}
-        docker pull ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker tag janardhan54/adok8:1 janardhan54/adok8:2
+        /*docker push ${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker pull ${IMAGE_NAME}:${TAG_NAME_Latest}*/
         """
 
     }
@@ -114,7 +114,7 @@ stage('Deploy to k8s'){
 }*/
 
 stage("Deploy to node4") {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-private', keyFileVariable: 'sshUser', passphraseVariable: 'K8S', usernameVariable: 'username')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-private', keyFileVariable: '', passphraseVariable: '', usernameVariable: 'username')]) {
         def remote = [:]
         remote.name = 'k8smaster1'
         remote.host = '20.231.51.90'
