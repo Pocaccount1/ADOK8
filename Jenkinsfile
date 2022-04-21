@@ -115,7 +115,7 @@ stage('Deploy to k8s'){
 
 stage("Deploy to master") {
 // sh 'kubectl apply -f adok8.yaml'
-       withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG', passwordVariable: 'password', usernameVariable: 'username')]) {
+       withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
         def remote = [:]
         remote.name = 'k8smaster1'
         remote.host = '20.231.51.90'
