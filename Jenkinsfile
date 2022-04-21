@@ -17,7 +17,7 @@ def TAG_NAME = params.TAG_NAME
 /*def NODE_PASSWD = params.NODE_PASSWD
 */
 stage('Checkout') {
- git branch: 'master', credentialsId: 'Github_poc', url: 'https://github.com/Pocaccount1/ADOK8.git'   
+ git branch: 'master', credentialsId: 'github_login', url: 'https://github.com/Pocaccount1/ADOK8.git'   
  }
 
 
