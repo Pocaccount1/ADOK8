@@ -115,7 +115,7 @@ stage('Deploy to k8s'){
 
 stage("Deploy to master") {
 // sh 'kubectl apply -f adok8.yaml'
-       withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
+       withCredentials([kubeconfigFile(credentialsId: 'Kconfig', variable: 'KUBECONFIG')]) {
     script{
          def docker_image = "${IMAGE_NAME}:${TAG_NAME_Latest}"
              try{   sh 'kubectl get deploy adok8-v1'
