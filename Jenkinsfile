@@ -116,9 +116,10 @@ stage('Deploy to k8s'){
 stage("Deploy to master") {
 // sh 'kubectl apply -f adok8.yaml'
        //withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
+ withCredentials([sshUserPrivateKey(credentialsId: 'ssh-private', keyFileVariable: 'KUBECONFIG', passphraseVariable: 'password', usernameVariable: 'username')]) {
         def remote = [:]
-        remote.name = 'canode'
-        remote.host = '20.232.148.224'
+        remote.name = 'k8smaster1'
+        remote.host = '20.231.51.90'
         remote.user = 'CAadmin'
         remote.password = 'Passw0rd@123'
         remote.allowAnyHosts = true
@@ -128,7 +129,7 @@ stage("Deploy to master") {
 
       /*  sshPut remote: remote, from: 'target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
         sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &"*/
-       // }
+        }
      }
 
 
