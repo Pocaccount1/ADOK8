@@ -118,10 +118,10 @@ stage("Deploy to master") {
        withCredentials([kubeconfigFile(credentialsId: 'Kconfig', variable: 'KUBECONFIG')]) {
     script{
          def docker_image = "${IMAGE_NAME}:${TAG_NAME_Latest}"
-             try{   sh 'kubectl get deploy adok8-v1'
+             try{   sh 'kubectl get deploy peram-v1'
              
             sh """
-            kubectl set image deployment/adok8-v1 adok8='${docker_image}'
+            kubectl set image deployment/peram-v1 peram='${docker_image}'
             """
             }
             catch(error){
