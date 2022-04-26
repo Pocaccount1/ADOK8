@@ -1,8 +1,3 @@
-/*def remote = [:]
-remote.name = "eq-demo-lm6"
-remote.host = "10.0.0.9"
-remote.allowAnyHosts = true */
-
 node {
 
 def IMAGE_NAME = params.IMAGE_NAME
@@ -10,12 +5,7 @@ def TAG_NAME = params.TAG_NAME
  def TAG_NAME_Latest = params.TAG_NAME_Latest
  def docker_login = params.docker_login
  def Dockerhub_URL = params.Dockerhub_URL
-//def ARTIFACTORY_IP = params.ARTIFACTORY_IP
-//def ARTIFACTORY_PORT = params.ARTIFACTORY_PORT
-//def ARTIFACTORY_KEY = params.ARTIFACTORY_KEY
-//def app_name = params.app_name
-/*def NODE_PASSWD = params.NODE_PASSWD
-*/
+
 stage('Checkout') {
  git branch: 'master', credentialsId: 'github_login', url: 'https://github.com/Pocaccount1/ADOK8.git'   
  }
@@ -47,14 +37,7 @@ stage('Build Image') {
 
 stage('Publish Image') {
  withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
- //withCredentials([usernamePassword(credentialsId: 'Artifactory_Creds', passwordVariable: 'password', usernameVariable: 'username')]) {
-   
-    /*sh """
-        docker login -u ${username} -p ${password} ${ARTIFACTORY_KEY}
-        docker tag ${IMAGE_NAME}:${TAG_NAME} ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
-        docker push ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
-        docker pull ${ARTIFACTORY_KEY}/${IMAGE_NAME}:${TAG_NAME}
-    """ */
+ 
     sh """
         docker login -u ${username} -p ${password} 
         docker tag ${IMAGE_NAME}:${TAG_NAME} ${IMAGE_NAME}:${TAG_NAME_Latest}
@@ -63,58 +46,9 @@ stage('Publish Image') {
         """
 
     }
-}
-/*stage('Deploy Task') {
- sshagent(['ssh-private']) {
-    sh "scp -o StrictHostKeyChecking=no adok8.yaml CAadmin@20.121.23.190:/root"
- script{
-  try{
-    sh "ssh CAadmin@20.121.23.190 kubectl apply -f ."
-  }catch(error){
-         sh "ssh CAadmin@20.121.23.190 kubectl create -f ."
-  }
- }
- 
-}
-} */
-    /*withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-    withCredentials([kubeconfigFile(credentialsId: 'KConfig', variable: 'KUBECONFIG')]) {
-
-    def docker_image = "${IMAGE_NAME}:${TAG_NAME_Latest}"
-    dir('k8s-templates') {
-      git branch: 'main', credentialsId: 'gitlab_cred', url: 'https://gitlab.com/rajudruva2/k8s-templates-yaml.git'
-       sh """
-    sed -i 's|docker_image|${docker_image}|' springboot-template.yml
-    sed -i "s/APP_NAME/\${APP_NAME}/g" springboot-template.yml   
-    sed -i "s/APP_LABEL/\${APP_LABEL}/g" springboot-template.yml 
-    sed -i "s/NAMESPACE/\${NAMESPACE}/g" springboot-template.yml    
-    
-"""
-sh 'kubectl get deploy springboot-c-dep'
-    }
-   
-}
-}
-stage('Deploy to k8s'){
-  withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-    
-     script{
-         def docker_image = "${ARTIFACTORY_IP}:${ARTIFACTORY_PORT}/${ARTIFACTORY_KEY}/${IAMGE_NAME}:${TAG_NAME}"
-             try{   sh 'kubectl get deploy springboot-c-dep'
-             
-            sh """
-            kubectl set image deployment/springboot-c-dep springboot-c='${docker_image}'
-            """
-            }
-            catch(error){
-              sh 'kubectl apply -f k8s-templates/springboot-template.yml' }
-
-     }
-}
-}*/
+}   
 
 stage("Deploy to master") {
-// sh 'kubectl apply -f adok8.yaml'
        withCredentials([kubeconfigFile(credentialsId: 'Kconfig', variable: 'KUBECONFIG')]) {
     script{
          def docker_image = "${IMAGE_NAME}:${TAG_NAME_Latest}"
@@ -129,19 +63,6 @@ stage("Deploy to master") {
     }
         }
      }
-
-
-/*stage("Deploy to node4") 
-        {
-    withCredentials([sshUserPrivateKey(credentialsId: 'eqadmin-ID', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'eqadmin')]) {
-       
-       remote.user = eqadmin
-       remote.identityFile = identity  
-        
-         sshPut remote: remote, from: 'complete/target/spring-boot-complete-0.0.1-SNAPSHOT.jar', into: '.'
-         sshCommand remote: remote, command: "nohup java -jar spring-boot-complete-0.0.1-SNAPSHOT.jar --server.port=8083 > /dev/null 2>&1 &" 
-        }
-    }   */
 } 
 
 
