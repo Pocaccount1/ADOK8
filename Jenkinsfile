@@ -3,8 +3,8 @@ node {
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
  def TAG_NAME_Latest = params.TAG_NAME_Latest
- def docker_login = params.docker_login
- def Dockerhub_URL = params.Dockerhub_URL
+// def docker_login = params.docker_login
+// def Dockerhub_URL = params.Dockerhub_URL
 
 stage('Checkout') {
  git branch: 'master', credentialsId: 'github_login', url: 'https://github.com/Pocaccount1/ADOK8.git'   
