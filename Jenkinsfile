@@ -43,9 +43,9 @@ stage('Publish Image') {
   withCredentials([usernamePassword(credentialsId: 'Jfrog_login', passwordVariable: 'password', usernameVariable: 'username')]) {
    sh """
         docker login -u ${username} -p ${password} ${Jfog_URL}/${Repository_Key}
-        docker tag ${IMAGE_NAME}:${TAG_NAME} ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME}
-        docker push ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME}
-        docker pull ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME}
+        docker tag ${IMAGE_NAME}:${TAG_NAME} ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker push ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker pull ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
     """
    
  /*   sh """
