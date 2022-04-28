@@ -3,7 +3,8 @@ node {
 def IMAGE_NAME = params.IMAGE_NAME
 def TAG_NAME = params.TAG_NAME
  def TAG_NAME_Latest = params.TAG_NAME_Latest
- def Jfog_URL = params.Jfog_URL
+ def Jfog_Ip = params.Jfog_Ip
+ def Jfog_Port = params.Jfog_Port
  def Repository_Key = params.Repository_Key
  
 // def docker_login = params.docker_login
@@ -42,10 +43,10 @@ stage('Publish Image') {
 // withCredentials([usernamePassword(credentialsId: 'docker_login', passwordVariable: 'password', usernameVariable: 'username')]) {
   withCredentials([usernamePassword(credentialsId: 'Jfrog_login', passwordVariable: 'password', usernameVariable: 'username')]) {
    sh """
-        docker login -u ${username} -p ${password} ${Jfog_URL}/${Repository_Key}
-        docker tag ${IMAGE_NAME}:${TAG_NAME} ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
-        docker push ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
-        docker pull ${Jfog_URL}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker login -u ${username} -p ${password} ${Jfog_Ip}:${Jfog_Port}/${Repository_Key}
+        docker tag ${IMAGE_NAME}:${TAG_NAME} ${Jfog_Ip}:${Jfog_Port}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker push ${Jfog_Ip}:${Jfog_Port}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
+        docker pull ${Jfog_Ip}:${Jfog_Port}/${Repository_Key}/${IMAGE_NAME}:${TAG_NAME_Latest}
     """
    
  /*   sh """
