@@ -30,7 +30,7 @@ spec:
       containers:
       - name: peram-1
         image: 20.228.206.107:8082/docker/peram/k8s:test
-        imagePullPolicy: IfNotPresent
-        env:
-           - name: TZ
-             value: Asia/Kolkata      
+        imagePullPolicy: Always
+    imagePullSecrets:    
+      - name: regcred
+          
