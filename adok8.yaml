@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: peram
+  name: adok8
 spec:
   type: NodePort
   ports:
@@ -10,27 +10,27 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: peram
+    app: adok8
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: peram-v1
+  name: adok8-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: peram
+      app: adok8
   template:
     metadata:
       labels:
-        app: peram
-        version: peram-version-1
+        app: adok8
+        version: adok8-version-1
     spec:
       containers:
-      - name: peram-1
-        image: 20.228.206.107:8082/docker/peram/k8s:test
+      - name: adok8-1
+        image: janardhan54/adok8:1
         imagePullPolicy: Always
-    imagePullSecrets:    
-      - name: regcred
-          
+        env:
+           - name: TZ
+             value: Asia/Kolkata      
